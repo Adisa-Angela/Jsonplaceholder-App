@@ -15,7 +15,10 @@ const LandingPage = () => {
         {user ? (
           <Link to="/home" className="btn primary">Go to Home</Link>  
         ) : (
-          <Link to="/login" className="btn primary">Login</Link>
+          <div className="auth-buttons">
+            <Link to="/login" className="btn primary">Login</Link>
+            <Link to="/signup" className="btn secondary">Sign Up</Link>  
+          </div>
         )}
       </header>
 
