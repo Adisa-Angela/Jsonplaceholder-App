@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "../styles/Photos.css"; 
+import Search from "../components/Search"; 
+import "../styles/Photos.css";
 
 const Photos = () => {
   const [photos, setPhotos] = useState([]);
+  const [filteredPhotos, setFilteredPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,6 +19,7 @@ const Photos = () => {
       .then((data) => {
         console.log("Fetched photos:", data);
         setPhotos(data);
+        setFilteredPhotos(data); 
         setLoading(false);
       })
       .catch((error) => {
@@ -26,19 +29,28 @@ const Photos = () => {
       });
   }, []);
 
+  const handleSearch = (query) => {
+    const filtered = photos.filter((photo) =>
+      photo.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredPhotos(filtered);
+  };
+
   return (
     <div className="photos-container">
       <h1 className="photos-title">Photo Gallery</h1>
+
+      <Search onSearch={handleSearch} placeholder="Search photos..." />
 
       {loading && <p className="loading">Loading photos...</p>}
       {error && <p className="error">{error}</p>}
 
       <div className="photos-grid">
-        {photos.length > 0 ? (
-          photos.map((photo) => (
+        {filteredPhotos.length > 0 ? (
+          filteredPhotos.map((photo) => (
             <div key={photo.id} className="photo-card">
               <a href={photo.url} target="_blank" rel="noopener noreferrer">
-              <img src={`https://picsum.photos/150?random=${photo.id}`} alt={photo.title} />
+                <img src={`https://picsum.photos/150?random=${photo.id}`} alt={photo.title} />
               </a>
               <p className="photo-title">{photo.title}</p>
             </div>

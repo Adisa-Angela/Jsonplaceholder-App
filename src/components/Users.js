@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from "react";
+import Search from "../components/Search"; 
 import "../styles/Users.css";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const [search, setSearch] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
-      .then((data) => setUsers(data));
+      .then((data) => {
+        setUsers(data);
+        setFilteredUsers(data); 
+      });
   }, []);
 
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const handleSearch = (query) => {
+    const filtered = users.filter((user) =>
+      user.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredUsers(filtered);
+  };
 
   return (
     <div className="users-container">
       <h1>Users List</h1>
-      <input
-        type="text"
-        placeholder="Search users..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="search-box"
-      />
+      <Search onSearch={handleSearch} placeholder="Search users..." /> 
       <div className="user-grid">
         {filteredUsers.map((user) => (
           <div key={user.id} className="user-card">
