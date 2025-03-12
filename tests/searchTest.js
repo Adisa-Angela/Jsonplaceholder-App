@@ -55,7 +55,6 @@ async function testSearchFunctionality() {
   } catch (error) {
     console.error("Test failed:", error);
 
-    // Capture screenshot on failure
     let screenshot = await driver.takeScreenshot();
     fs.writeFileSync("search_test.png", screenshot, "base64");
     console.log("📸 Screenshot saved as 'search_test.png' for debugging.");
