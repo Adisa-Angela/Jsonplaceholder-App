@@ -15,7 +15,7 @@ describe("Search Functionality", function () {
     await driver.quit();
   });
 
-  it("find a user using search", async () => {
+  it("should find a user using search", async () => {
     try {
       console.log("Navigating to website...");
       await driver.get("https://jsonplaceholder-app-peach.vercel.app/");
